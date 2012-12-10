@@ -35,9 +35,13 @@ free to fork and host elsewhere if you want.
 * wasd - up, left, down, right. Up is jump.
 * mouse: aim with crosshairs, you can shoot in all directions.
 * click: shoot.
-* q, e: change weapons left or right, (PENDING, we might not implement more than one weapon at first.)
+* Weapon shots are visible (and avoidable) projectiles, this goes for both friendly and enemy fire.
+* q, e: change weapons left or right. We will have only 2 types of weapons first. "basic" and "strong" gun.
 * No scrolling levels, yet. Every level is only one room with a start point, end point some walls, corridors, ceilings,
 floors and enemies ... And it has to fit into 800px x 800px 2D canvas.
+* Moving and static enemies, both shooting and not-shooting.
+* In other words, 4 types of distinct enemies overall at least. (static and not-shooting enemy is basically some 
+deadly environment element like spike etc)
 * When player gets to the door, the next level starts. Or if it was the last level, game is won. 
 * Scoring is somehow based on time used to complete the level and amount of killed enemies.
 * Highscores will be saved to some server somewhere with player's nickname (asked when player gets there).

@@ -77,9 +77,3 @@ sf.objects = {
 } 
 sf.objects.DummyObject.prototype = sf.objects.WorldObject;
 sf.objects.PlayerObject.prototype = sf.objects.WorldObject;
-
-// Test code...
-var stuff = new sf.objects.DummyObject(6, 6, true);
-var stuff2 = new sf.objects.DummyObject(9, 9, true);
-stuff.moveBy(10, 10);
-stuff.collision(stuff2)

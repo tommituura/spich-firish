@@ -15,10 +15,11 @@ These facts do have a consequence:
 
 In the (admittedly unlikely) chance that anyone clones this project and 
 wants to improve it, since the turned-in 
-version must be 100% my own work, __I cannot accept any 
-pull requests until 14th Jan 2013__.  So, if you really want 
-to clone and improve this project, by all means do so, but 
-please don't feel bad when I'll keep ignoring your pull 
+version must be 100% my own work (except for libraries and publicly 
+available code like Flanagan's ECMA5 fallback functions), '
+__I cannot accept any pull requests until 14th Jan 2013__.  
+So, if you really want to clone and improve this project, by all means 
+do so, but please don't feel bad when I'll keep ignoring your pull 
 requests until the turn-in deadline has passed. There's a 
 reason for that that has nothing to do with the quality 
 of anyone's code. Thanks. :)

@@ -30,17 +30,6 @@ sf.objects = {
             
         },
         crudeCollision: function(that) { // This collision detection is for simple cases. Remember to run calculateBounds for both this and that!
-        /*
-            var thistop = this.bounds.top < this.prevbounds.top ? this.bounds.top : this.prevbounds.top;
-            var thisleft = this.bounds.left < this.prevbounds.left ? this.bounds.left : this.prevbounds.left;
-            var thisbottom = this.bounds.bottom > this.prevbounds.bottom ? this.bounds.bottom : this.prevbounds.bottom;
-            var thisright = this.bounds.right > this.prevbounds.right ? this.bounds.right : this.prevbounds.right;
-            
-            var thattop = that.bounds.top < that.prevbounds.top ? that.bounds.top : that.prevbounds.top;
-            var thatleft = that.bounds.left < that.prevbounds.left ? that.bounds.left : that.prevbounds.left;
-            var thatbottom = that.bounds.bottom > that.prevbounds.bottom ? that.bounds.bottom : that.prevbounds.bottom;
-            var thatright = that.bounds.right > that.prevbounds.right ? that.bounds.right : that.prevbounds.right;
-          */  
             if (this.movebounds.right < that.movebounds.left && 
                 that.movebounds.right < this.movebounds.left && 
                 this.movebounds.top < that.movebounds.bottom && 

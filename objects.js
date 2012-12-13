@@ -14,42 +14,47 @@ sf.objects = {
             }
         },
         calculateBounds: function() {
+
             this.bounds.top = this.pos.y - (this.outerheight/2);
-            this.bounds.right = this.pos.x - (this.outerwidth/2);
+            this.bounds.left = this.pos.x - (this.outerwidth/2);
             this.bounds.bottom = this.pos.y + (this.outerheight/2);
-            this.bounds.left = this.pos.x + (this.outerwidth/2);
+            this.bounds.right = this.pos.x + (this.outerwidth/2);
+            
             this.prevbounds.top = this.prevpos.y - (this.outerheight/2);
-            this.prevbounds.right = this.prevpos.x - (this.outerwidth/2);
+            this.prevbounds.left = this.prevpos.x - (this.outerwidth/2);
             this.prevbounds.bottom = this.prevpos.y + (this.outerheight/2);
-            this.prevbounds.left = this.prevpos.x + (this.outerwidth/2);
+            this.prevbounds.right = this.prevpos.x + (this.outerwidth/2);
+            
             // For some aggressive optimization of collision detection...
-            this.movebounds.top = this.bounds.top < this.prevbounds.top ? this.bounds.top : this.prevbounds.top;
-            this.movebounds.left = this.bounds.left < this.prevbounds.left ? this.bounds.left : this.prevbounds.left;
-            this.movebounds.bottom = this.bounds.bottom > this.prevbounds.bottom ? this.bounds.bottom : this.prevbounds.bottom;
-            this.movebounds.right = this.bounds.right > this.prevbounds.right ? this.bounds.right : this.prevbounds.right;
+            this.movebounds.top = (this.bounds.top < this.prevbounds.top) ? this.bounds.top : this.prevbounds.top;
+            this.movebounds.left = (this.bounds.left < this.prevbounds.left) ? this.bounds.left : this.prevbounds.left;
+            this.movebounds.bottom = (this.bounds.bottom > this.prevbounds.bottom) ? this.bounds.bottom : this.prevbounds.bottom;
+            this.movebounds.right = (this.bounds.right > this.prevbounds.right) ? this.bounds.right : this.prevbounds.right;
+            if (this.movebounds.right <= this.movebounds.left || this.movebounds.bottom <= this.movebounds.top) {
+                console.log('STUFF SERIOUSLY WRONG, movebounds:', this.movebounds)
+            }
             
         },
-        crudeCollision: function(that) { // This collision detection is for simple cases. Remember to run calculateBounds for both this and that!
-            if (this.movebounds.right < that.movebounds.left && 
-                that.movebounds.right < this.movebounds.left && 
-                this.movebounds.top < that.movebounds.bottom && 
-                that.movebounds.top < this.movebounds.bottom) {
+        areaCollision: function(that) { // This collision detection is for first pruning of cases. 
+            if (this.movebounds.right > that.movebounds.left && 
+                that.movebounds.right > this.movebounds.left && 
+                this.movebounds.bottom > that.movebounds.top && 
+                that.movebounds.bottom > this.movebounds.top) {
                 return true;
             }
             else {
+                // console.log(this, that);
                 return false;
             }
         },
-        hitboxCollision: function(that) { // this collision function is for more definite cases. Only run after getting true from crudeCollision!
+        crudeCollision: function(that) { // This collision detection is for simple cases. Only run after getting true from areaCollision!
             return true; // doesn't do anything really yet...
         },
-        collision: function(that) {
-            if (this.crudeCollision(that)) {
-                return this.hitboxCollision(that);
-            }
-            else {
-                return false;
-            }
+        hitboxCollision: function(that) { // this collision function is for most definite cases. Only run after getting true from crudeCollision!
+            return true; // doesn't do anything really yet...
+        },
+        collision: function(that) { // Remember to run calculateBounds for both this and that before asking collision!
+            return (this.areaCollision(that) && this.crudeCollision(that) && this.hitboxCollision(that));
         },
         init: function(posX, posY, movable, outerwidth, outerheight) {
             this.pos = {x: posX, y: posY };
@@ -61,6 +66,7 @@ sf.objects = {
             this.prevbounds = {};
             this.movebounds = {};
             this.calculateBounds();
+            this.active = false;
         },
         draw: function(context, color) {
             if (typeof color === 'undefined') {var color='rgb(0,0,0)';}
@@ -68,6 +74,8 @@ sf.objects = {
                 context.fillStyle=color;
                 context.fillRect(this.bounds.top, this.bounds.left, this.outerwidth, this.outerheight);
             }
+        },
+        tick: function() { // overwrite this function for objects that that actually do something.
         },
         shoutInfo: function() {
             console.log(this);
@@ -81,6 +89,8 @@ sf.objects = {
         this.draw = function(context) {
             context.fillStyle='rgb(0,255,0)';
             context.fillRect(this.bounds.top, this.bounds.left, this.outerwidth, this.outerheight);
+        }
+        this.tick = function(controlEvents) { // this function should move the player object.
         }
     }
 } 

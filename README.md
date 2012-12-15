@@ -40,7 +40,7 @@ for. As much as I can.
 * Graphics&Sound assets will (at least at first) be something 
 CC-licensed out of opengameart.org or similar resources.
 * The first versions might have uninspiring coloured rectangles instead of artwork.
-* License will be something permissive like 3-clause BSD. 
+* License is MIT
 * I'll try to keep working on the project even after the turn-in 
 but I might have to prioritize my time so... feel 
 free to fork and host elsewhere if you want. 

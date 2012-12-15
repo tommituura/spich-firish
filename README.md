@@ -45,6 +45,13 @@ CC-licensed out of opengameart.org or similar resources.
 but I might have to prioritize my time so... feel 
 free to fork and host elsewhere if you want. 
 
+### Building
+
+There is 'minify.sh' script that will join the js files into one 
+and run it through the yui compressor. You must edit the script 
+by hand to point it to the .jar of yui compressor, which you can get 
+here: https://github.com/yui/yuicompressor/downloads
+
 ### Controls, gameplay etc.:
 
 * wasd - up, left, down, right. Up is jump.

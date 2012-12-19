@@ -23,3 +23,12 @@ stopping game
 * game over screen -> highscore screen by anykey or inputting name
 * highscore screen -> starting screen by anykey (or timeout?)
 
+Also, we want to be able to generate the levels from json 
+files. This would be mightily nice even at the first version. 
+
+# Transition plan:
+
+* every type of screen has a script-tag template
+* screens are created to browser window from templates, 
+at first having hidden as a class which translates 
+to display: none; in css. 

@@ -7,7 +7,9 @@ sf.setup = {
   height: 800,
   context: null, // here only for information as "this is here"
   canvasPosition: null, // as is this one, too
-  levels: $.getJSON('data/levels.json')
+  levels: $.getJSON('data/levels.json', function(levelsdata) {
+    sf.setup.levels = levelsdata;
+  })
 };
 
 sf.objects = {};

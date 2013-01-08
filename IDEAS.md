@@ -10,7 +10,8 @@ We have several states we must support in the game:
 
 * Starting screen (game name, start button etc...
 * multiple playing screens (one for each level!
-* game over screen/name input for hiscore screen 
+* game over screen
+* name input for hiscore screen 
 * highscore screen
 
 And the transitions between these states are as follows (it seems):
@@ -28,7 +29,5 @@ files. This would be mightily nice even at the first version.
 
 # Transition plan:
 
-* every type of screen has a script-tag template
-* screens are created to browser window from templates, 
-at first having hidden as a class which translates 
-to display: none; in css. 
+* engine holds a variable that knows the state.
+* engine functions look to this variable to decide what it should do.

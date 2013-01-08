@@ -26,7 +26,7 @@ sf.engine = (function() {
     }
     var gameDraw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
-        sf.setup.context.fillRect(0, 0, 800, 800);
+        sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
         
         for (var i=0;i<sf.world.enemies.length; i++) {
             sf.world.enemies[i].draw(sf.setup.context, 'rgb(255,0,0)');
@@ -36,7 +36,7 @@ sf.engine = (function() {
     }
     var startDraw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
-        sf.setup.context.fillRect(0, 0, 800, 800);
+        sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
         
         sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
         sf.setup.context.fillStyle = 'rgb(0, 0, 0)';
@@ -44,7 +44,7 @@ sf.engine = (function() {
     }
     var scoreDraw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
-        sf.setup.context.fillRect(0, 0, 800, 800);
+        sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
         
         sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
         sf.setup.context.fillStyle = 'rgb(0, 0, 0)';
@@ -52,7 +52,7 @@ sf.engine = (function() {
     }
     var scoreInputDraw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
-        sf.setup.context.fillRect(0, 0, 800, 800);
+        sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
         
         sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
         sf.setup.context.fillStyle = 'rgb(0, 0, 0)';

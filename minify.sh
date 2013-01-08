@@ -4,6 +4,7 @@ cat js/inputs/*.js >> spich-firish.js
 cat js/models/gameobject.js >> spich-firish.js
 cat js/models/dummyobject.js >> spich-firish.js
 cat js/models/playerobject.js >> spich-firish.js
+cat js/models/world.js >> spich-firish.js
 cat js/engine.js >> spich-firish.js
 cat js/main.js >> spich-firish.js
 cat js/test.js >> spich-firish.js

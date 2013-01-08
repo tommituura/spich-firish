@@ -59,7 +59,15 @@ sf.engine = (function() {
         sf.setup.context.fillText("Score Input screen!", 30, 30);
     }
     var tick = function() {
-        sf.engine.draw();
+        if (state === 'GAME_SCREEN') {
+            gameDraw();
+        } else if (state === 'START_SCREEN') {
+            startDraw();
+        } else if (state === 'SCORE_SCREEN') {
+            scoreDraw();
+        } else if (state === 'SCOREINPUT_SCREEN') {
+            scoreInputDraw();
+        }
         requestAnimFrame(sf.engine.tick);
     }
     var stateSwitch = function(switchto) {

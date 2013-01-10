@@ -55,7 +55,7 @@ sf.objects.GameObject = {
     collision: function(that) { // Remember to run calculateBounds for both this and that before asking collision!
         return (this.areaCollision(that) && this.crudeCollision(that) && this.hitboxCollision(that));
     },
-    init: function(posX, posY, movable, outerwidth, outerheight) {
+    init: function(posX, posY, movable, outerwidth, outerheight, blocking) {
         this.pos = {x: posX, y: posY };
         this.prevpos = {x: posX, y: posY };
         this.movable = movable;
@@ -66,6 +66,8 @@ sf.objects.GameObject = {
         this.movebounds = {};
         this.calculateBounds();
         this.active = false;
+        if (typeof blocking === 'undefined') {this.blocking = false;}
+        else {this.blocking = blocking;}
     },
     draw: function(context, color) {
         if (typeof color === 'undefined') {var color='rgb(0,0,0)';}

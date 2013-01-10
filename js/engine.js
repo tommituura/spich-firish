@@ -60,6 +60,8 @@ sf.engine = (function() {
     }
     var tick = function() {
         if (state === 'GAME_SCREEN') {
+            var playermove = sf.controls.getMovement();
+            sf.world.player.moveBy(playermove[1]*5, playermove[0]*5);
             gameDraw();
         } else if (state === 'START_SCREEN') {
             startDraw();

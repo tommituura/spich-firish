@@ -25,11 +25,11 @@ sf.controls = (function() {
         return keys[39] || keys[177] || keys[68];
     }
 
-    function keydown(keycode) {
-        keys[keycode] = true;
+    function keydown(keyevent) {
+        keys[keyevent.which] = true;
     }
-    function keyup(keycode) {
-        keys[keycode] = false;
+    function keyup(keyevent) {
+        keys[keyevent.which] = false;
     }
     function getMovement() {
         var movement = [0, 0];
@@ -49,9 +49,17 @@ sf.controls = (function() {
         return movement;
     }
 
+
+    function mouseclick(mouseEvent) {
+    }
+    
+    function getClick() {
+        return false;
+    }
+    
     function mousemove(mouseEvent) {
         if (!sf.setup.canvasPosition) {
-            var tempPos = sf.setup.context.getPosition()
+            var tempPos = sf.setup.context.getPosition();
             if (!tempPos) {
                 console.log('No canvas context!');
                 tempPos = {left: 0, top: 0}
@@ -76,6 +84,7 @@ sf.controls = (function() {
             mousemove : mousemove
         }, 
         getMovement: getMovement,
-        getCursorPos: getCursorPos
+        getCursorPos: getCursorPos,
+        getClick: getClick
     }
 })();

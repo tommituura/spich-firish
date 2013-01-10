@@ -8,6 +8,8 @@ function test() {
     sf.world.enemies[0].moveBy(1, 1);
     console.log(sf.world.enemies[0].collision(sf.world.enemies[1]));
     
+    sf.world.terrain.push(new sf.objects.TerrainObject(700, 100, 700, 10));
+    
     sf.world.player = new sf.objects.PlayerObject(26, 26, true);
     sf.world.player.draw(sf.setup.context);
 }

@@ -28,6 +28,10 @@ sf.engine = (function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
         sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
         
+        for (var i=0;i<sf.world.terrain.length; i++) {
+            sf.world.terrain[i].draw(sf.setup.context, 'rgb(10,10,10)');
+        }
+        
         for (var i=0;i<sf.world.enemies.length; i++) {
             sf.world.enemies[i].draw(sf.setup.context, 'rgb(255,0,0)');
         }
@@ -61,7 +65,9 @@ sf.engine = (function() {
     var tick = function() {
         if (state === 'GAME_SCREEN') {
             var playermove = sf.controls.getMovement();
-            sf.world.player.moveBy(playermove[1]*5, playermove[0]*5);
+            if (playermove[0]!==0 || playermove[1]!==0) {
+                sf.world.player.moveBy(playermove[1]*5, playermove[0]*5);
+            }
             gameDraw();
         } else if (state === 'START_SCREEN') {
             startDraw();

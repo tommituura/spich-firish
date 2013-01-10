@@ -4,7 +4,16 @@
 
 sf.objects.GameObject = {
     moveBy: function(x, y) {
-        if (this.movable) {
+        this.calculateBounds();
+        var blocked = false;
+        for (var i=0;i<sf.world.terrain.length; i++) {
+            sf.world.terrain[i].calculateBounds();
+            if (this.collision(sf.world.terrain[i])) {
+                blocked = true;
+            }
+        }
+        //console.log(blocked);
+        if (this.movable && !blocked) {
             this.prevpos.x = this.pos.x;
             this.prevpos.y = this.pos.y;
             this.pos.x = this.pos.x + x;
@@ -53,6 +62,7 @@ sf.objects.GameObject = {
         return true; // doesn't do anything really yet...
     },
     collision: function(that) { // Remember to run calculateBounds for both this and that before asking collision!
+        //console.log('Calling collision!');
         return (this.areaCollision(that) && this.crudeCollision(that) && this.hitboxCollision(that));
     },
     init: function(posX, posY, movable, outerwidth, outerheight, blocking) {

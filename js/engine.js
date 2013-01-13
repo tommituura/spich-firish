@@ -66,7 +66,7 @@ sf.engine = (function() {
         if (state === 'GAME_SCREEN') {
             var playermove = sf.controls.getMovement();
             
-            sf.world.player.moveBy(playermove[0]*5, playermove[1]*5);
+            sf.world.player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
             
             gameDraw();
         } else if (state === 'START_SCREEN') {

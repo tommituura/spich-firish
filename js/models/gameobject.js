@@ -13,11 +13,15 @@ sf.objects.GameObject = {
             }
         }
         //console.log(blocked);
-        if (this.movable) {
+        if (this.movable && !blocked) {
             this.prevpos.x = this.pos.x;
             this.prevpos.y = this.pos.y;
             this.pos.x = this.pos.x + x;
             this.pos.y = this.pos.y + y;
+            this.calculateBounds();
+        } else if (blocked) {
+            this.pos.x = this.prevpos.x;
+            this.pos.y = this.prevpos.y;
             this.calculateBounds();
         }
     },

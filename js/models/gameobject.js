@@ -13,7 +13,7 @@ sf.objects.GameObject = {
             }
         }
         //console.log(blocked);
-        if (this.movable && !blocked) {
+        if (this.movable) {
             this.prevpos.x = this.pos.x;
             this.prevpos.y = this.pos.y;
             this.pos.x = this.pos.x + x;
@@ -83,7 +83,7 @@ sf.objects.GameObject = {
         if (typeof color === 'undefined') {var color='rgb(0,0,0)';}
         if (!this.sprite) {
             context.fillStyle=color;
-            context.fillRect(this.bounds.top, this.bounds.left, this.outerwidth, this.outerheight);
+            context.fillRect(this.bounds.left, this.bounds.top, this.outerwidth, this.outerheight);
         }
     },
     tick: function() { // overwrite this function for objects that that actually do something.

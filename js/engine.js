@@ -35,6 +35,9 @@ sf.engine = (function() {
         for (var i=0;i<sf.world.enemies.length; i++) {
             sf.world.enemies[i].draw(sf.setup.context, 'rgb(255,0,0)');
         }
+        for (var i=0; i<sf.world.playerbullets.length; i++) {
+            sf.world.playerbullets[i].draw(sf.setup.context);
+        }
         sf.world.player.draw(sf.setup.context)
         
         
@@ -75,6 +78,9 @@ sf.engine = (function() {
                 console.log(shoot);
             }
             */
+            for (var i=0; i<sf.world.playerbullets.length; i++) {
+                sf.world.playerbullets[i].tick();
+            }
             sf.world.player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
             
             gameDraw();

@@ -3,7 +3,8 @@
 // keyboard & mouse events.
 
 sf.controls = (function() {
-    var cursorPos = {x: 0, y: 0}
+    var cursorPos = {x: 0, y: 0, visible: false}
+    var clicked = false;
     var keys = [];
     for (var i=0; i<256; i++) {
         keys[i] = false;
@@ -50,13 +51,20 @@ sf.controls = (function() {
 
 
     function mouseclick(mouseEvent) {
+        clicked = true;
     }
     
     function getClick() {
-        return false;
+        if (clicked) {
+            clicked = false;
+            return true
+        } else {
+            return false;
+        }
     }
     
     function mousemove(mouseEvent) {
+        /*
         if (!sf.setup.canvasPosition) {
             var tempPos = sf.setup.context.getPosition();
             if (!tempPos) {
@@ -67,11 +75,15 @@ sf.controls = (function() {
                 x: tempPos.left,
                 y: tempPos.top
             }
-        }
-        cursorPos.x = mouseEvent.pageX - sf.setup.canvasPosition.x;
-        cursorPos.y = mouseEvent.pageY - sf.setup.canvasPosition.x;
+        }*/
+        cursorPos.x = mouseEvent.offsetX;
+        cursorPos.y = mouseEvent.offsetY;
+        cursorPos.visible = true;
+        // console.log(cursorPos.x, cursorPos.y, cursorPos.visible);
     }
-
+    function mouseout() {
+        cursorPos.visible = false;
+    }
     function getCursorPos() {
         return cursorPos;
     }
@@ -80,7 +92,9 @@ sf.controls = (function() {
         handlers: {
             keyup : keyup,
             keydown : keydown,
-            mousemove : mousemove
+            mousemove : mousemove,
+            mouseclick : mouseclick,
+            mouseout: mouseout
         }, 
         getMovement: getMovement,
         getCursorPos: getCursorPos,

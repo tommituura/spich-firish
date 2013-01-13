@@ -37,6 +37,7 @@ sf.engine = (function() {
         }
         sf.world.player.draw(sf.setup.context)
         
+        
     }
     var startDraw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
@@ -65,7 +66,15 @@ sf.engine = (function() {
     var tick = function() {
         if (state === 'GAME_SCREEN') {
             var playermove = sf.controls.getMovement();
-            
+            var crosshairs = sf.controls.getCursorPos();
+            var shoot = sf.controls.getClick();
+            /*
+            if (shoot) {
+                console.log(shoot, crosshairs.x, crosshairs.y);
+            } else {
+                console.log(shoot);
+            }
+            */
             sf.world.player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
             
             gameDraw();

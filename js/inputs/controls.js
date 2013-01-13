@@ -45,7 +45,6 @@ sf.controls = (function() {
         if(right()) {
             movement[0] = 1;
         }
-        
         return movement;
     }
 

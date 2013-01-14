@@ -82,11 +82,12 @@ sf.objects.GameObject = {
         this.active = false;
         if (typeof blocking === 'undefined') {this.blocking = false;}
         else {this.blocking = blocking;}
+        this.color = 'rgb(0,0,0)';
     },
-    draw: function(context, color) {
-        if (typeof color === 'undefined') {var color='rgb(0,0,0)';}
+    draw: function(context, drawColor) {
+        if (typeof drawColor === 'undefined') {var drawColor=this.color;}
         if (!this.sprite) {
-            context.fillStyle=color;
+            context.fillStyle=drawColor;
             context.fillRect(this.bounds.left, this.bounds.top, this.outerwidth, this.outerheight);
         }
     },

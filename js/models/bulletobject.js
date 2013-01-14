@@ -19,18 +19,20 @@ sf.objects.BulletObject = function(startX, startY, mouseX, mouseY, enemy, speed)
     if (tempdY < 0) {var ydir = -1;} else {var ydir = 1;}
     
     var angle = Math.acos(tempdX/hypotenuse);
-    this.dX = Math.cos(angle);
-    this.dY = Math.sin(angle) * ydir;
+    this.dX = this.speed * Math.cos(angle);
+    this.dY = this.speed * Math.sin(angle) * ydir;
+    
+    if (enemy) {
+        this.color = 'rgb(255,0,0)';
+    } else {
+        this.color = 'rgb(0,0,0)';
+    }
     
     //console.log('starts:',startX, startY, 'mouse:', mouseX, mouseY, 'temps:', tempdX,tempdY); 
     //console.log('hypotenuse:', hypotenuse, 'angle:',angle, 'speed:',speed, 'dirs', xdir, ydir);
     
     this.draw = function(context) {
-        if (enemy) {
-            context.fillStyle='rgb(255,0,0)';
-        } else {
-            context.fillStyle='rgb(0,255,0)';
-        }
+        context.fillStyle=this.color;
         context.fillRect(this.bounds.left, this.bounds.top, this.outerwidth, this.outerheight);
     }
     this.tick = function() { 

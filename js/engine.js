@@ -13,16 +13,28 @@ window.requestAnimFrame = (function(){
 
 sf.engine = {}; 
 
+
+
 sf.engine.startScreen = (function() {
     var draw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
         sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
         
-        sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
+        sf.setup.context.font = '40px Arial, Helvetica, Sans-serif';
         sf.setup.context.fillStyle = 'rgb(0, 0, 0)';
-        sf.setup.context.fillText("Start screen!", 30, 30);
+        sf.setup.context.fillText("SPICH-FIRISH", 140, 140);
+        
+        sf.setup.context.font = '15px Arial, Helvetica, Sans-serif';
+        sf.setup.context.fillText("WASD to move.", 150, 200);
+        sf.setup.context.fillText("Aim and shoot with mouse.", 150, 220);
+        sf.setup.context.fillText("You are Black. Avoid/shoot Red. Reach Green.", 150, 240);
+        sf.setup.context.fillText("Press any key to start.", 150, 260);
     };
     var tick = function() {
+        if (sf.controls.getAnyKey()) {
+            sf.controls.getClick(); // empty the mouseclick buffer.
+            sf.engine.main.state('GAME_SCREEN');
+        }
     };
     return {
         draw: draw, 
@@ -64,13 +76,14 @@ sf.engine.hiScoreInput = (function() {
     }
 })();
 
+/* THIS MODULE is the heart of game logic. */
 sf.engine.game = (function() {
     var draw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
         sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
         
         for (var i=0;i<sf.world.terrain.length; i++) {
-            sf.world.terrain[i].draw(sf.setup.context, 'rgb(10,10,10)');
+            sf.world.terrain[i].draw(sf.setup.context);
         }
         
         for (var i=0;i<sf.world.enemies.length; i++) {
@@ -92,7 +105,7 @@ sf.engine.game = (function() {
 
         if (shoot) {
             var clickPos = sf.controls.getClickPos();
-            sf.world.playerbullets.push(new sf.objects.BulletObject(sf.world.player.pos.x, sf.world.player.pos.y, clickPos.x, clickPos.y,false,10));
+            sf.world.playerbullets.push(new sf.objects.BulletObject(sf.world.player.pos.x, sf.world.player.pos.y, clickPos.x, clickPos.y,false,5));
         }
         
         for (var i=0; i<sf.world.enemybullets.length; i++) {

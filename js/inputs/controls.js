@@ -7,6 +7,7 @@ sf.controls = (function() {
     var clicked = false;
     var clickPos = {x:null, y:null};
     var keys = [];
+    var anykey = false;
     for (var i=0; i<256; i++) {
         keys[i] = false;
     }
@@ -29,6 +30,7 @@ sf.controls = (function() {
 
     function keydown(keyevent) {
         keys[keyevent.which] = true;
+        anykey = true;
     }
     function keyup(keyevent) {
         keys[keyevent.which] = false;
@@ -47,6 +49,7 @@ sf.controls = (function() {
         if(right()) {
             movement[0] = 1;
         }
+        anykey = false;
         return movement;
     }
 
@@ -81,7 +84,14 @@ sf.controls = (function() {
     function getCursorPos() {
         return cursorPos;
     }
-
+    function getAnyKey() {
+        if (anykey) {
+            anykey = false;
+            return true;
+        } else {
+            return false;
+        }
+    }
     return {
         handlers: {
             keyup : keyup,
@@ -93,6 +103,8 @@ sf.controls = (function() {
         getMovement: getMovement,
         getCursorPos: getCursorPos,
         getClick: getClick,
-        getClickPos: getClickPos
+        getClickPos: getClickPos,
+        getAnyKey: getAnyKey,
+        
     }
 })();

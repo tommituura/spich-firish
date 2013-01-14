@@ -74,13 +74,12 @@ sf.engine = (function() {
             var playermove = sf.controls.getMovement();
             var crosshairs = sf.controls.getCursorPos();
             var shoot = sf.controls.getClick();
-            /*
+
             if (shoot) {
-                console.log(shoot, crosshairs.x, crosshairs.y);
-            } else {
-                console.log(shoot);
+                var clickPos = sf.controls.getClickPos();
+                sf.world.playerbullets.push(new sf.objects.BulletObject(sf.world.player.pos.x, sf.world.player.pos.y, clickPos.x, clickPos.y,false,10));
             }
-            */
+            
             for (var i=0; i<sf.world.enemybullets.length; i++) {
                 sf.world.enemybullets[i].tick();
             }

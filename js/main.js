@@ -11,7 +11,7 @@ $(document).ready(function() {
   $(document).keyup(function(eventInformation) {
     sf.controls.handlers.keyup(event);
   });
-  $('#screen').click(function(event) {
+  $('#screen').mouseup(function(event) {
     sf.controls.handlers.mouseclick(event);
     //console.log(event.offsetX, event.offsetY);
   });
@@ -21,6 +21,7 @@ $(document).ready(function() {
   $('#screen').mouseout(function(event) {
     sf.controls.handlers.mouseout();
   });
+  sf.engine.state('GAME_SCREEN');
   sf.engine.tick();
 });
 

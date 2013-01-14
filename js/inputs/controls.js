@@ -5,6 +5,7 @@
 sf.controls = (function() {
     var cursorPos = {x: 0, y: 0, visible: false}
     var clicked = false;
+    var clickPos = {x:null, y:null};
     var keys = [];
     for (var i=0; i<256; i++) {
         keys[i] = false;
@@ -52,6 +53,8 @@ sf.controls = (function() {
 
     function mouseclick(mouseEvent) {
         clicked = true;
+        clickPos.x = mouseEvent.offsetX;
+        clickPos.y = mouseEvent.offsetY;
     }
     
     function getClick() {
@@ -63,23 +66,14 @@ sf.controls = (function() {
         }
     }
     
+    function getClickPos() {
+        return clickPos;
+    }
+    
     function mousemove(mouseEvent) {
-        /*
-        if (!sf.setup.canvasPosition) {
-            var tempPos = sf.setup.context.getPosition();
-            if (!tempPos) {
-                console.log('No canvas context!');
-                tempPos = {left: 0, top: 0}
-            }
-            sf.setup.canvasPosition = {
-                x: tempPos.left,
-                y: tempPos.top
-            }
-        }*/
         cursorPos.x = mouseEvent.offsetX;
         cursorPos.y = mouseEvent.offsetY;
         cursorPos.visible = true;
-        // console.log(cursorPos.x, cursorPos.y, cursorPos.visible);
     }
     function mouseout() {
         cursorPos.visible = false;
@@ -98,6 +92,7 @@ sf.controls = (function() {
         }, 
         getMovement: getMovement,
         getCursorPos: getCursorPos,
-        getClick: getClick
+        getClick: getClick,
+        getClickPos: getClickPos
     }
 })();

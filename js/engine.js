@@ -113,78 +113,8 @@ sf.engine.game = (function() {
 sf.engine.main = (function() {
     var state = 'START_SCREEN';
     var currentMode = sf.engine.startScreen;
-    /*
-    var draw = function () {
-        if (state === 'GAME_SCREEN') {
-            gameDraw();
-        } else if (state === 'START_SCREEN') {
-            startDraw();
-        } else if (state === 'SCORE_SCREEN') {
-            scoreDraw();
-        } else if (state === 'SCOREINPUT_SCREEN') {
-            scoreInputDraw();
-        }
-    }*/
-    /*
-    var gameDraw = function() {
-        sf.setup.context.fillStyle="rgb(255,255,255)";
-        sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
-        
-        for (var i=0;i<sf.world.terrain.length; i++) {
-            sf.world.terrain[i].draw(sf.setup.context, 'rgb(10,10,10)');
-        }
-        
-        for (var i=0;i<sf.world.enemies.length; i++) {
-            sf.world.enemies[i].draw(sf.setup.context, 'rgb(255,0,0)');
-        }
-        for (var i=0; i<sf.world.enemybullets.length; i++) {
-            sf.world.enemybullets[i].draw(sf.setup.context);
-        }
-        for (var i=0; i<sf.world.playerbullets.length; i++) {
-            sf.world.playerbullets[i].draw(sf.setup.context);
-        }
-        sf.world.player.draw(sf.setup.context)
-        
-        
-    }
-    
-    var startDraw = function() {
-        sf.setup.context.fillStyle="rgb(255,255,255)";
-        sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
-        
-        sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
-        sf.setup.context.fillStyle = 'rgb(0, 0, 0)';
-        sf.setup.context.fillText("Start screen!", 30, 30);
-    }
-    var scoreDraw = function() {
-        sf.setup.context.fillStyle="rgb(255,255,255)";
-        sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
-        
-        sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
-        sf.setup.context.fillStyle = 'rgb(0, 0, 0)';
-        sf.setup.context.fillText("Score screen!", 30, 30);
-    }
-    var scoreInputDraw = function() {
-        sf.setup.context.fillStyle="rgb(255,255,255)";
-        sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
-        
-        sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
-        sf.setup.context.fillStyle = 'rgb(0, 0, 0)';
-        sf.setup.context.fillText("Score Input screen!", 30, 30);
-    }*/
+
     var tick = function() {
-        /*
-        if (state === 'GAME_SCREEN') {
-            sf.engine.game.tick();
-            sf.engine.game.draw();
-        } else if (state === 'START_SCREEN') {
-            sf.engine.startScreen.draw();
-        } else if (state === 'SCORE_SCREEN') {
-            sf.engine.hiScore.draw();
-        } else if (state === 'SCOREINPUT_SCREEN') {
-            sf.engine.hiScoreInput.draw();
-        }
-        */
         currentMode.tick();
         currentMode.draw();
         requestAnimFrame(sf.engine.main.tick);
@@ -206,7 +136,6 @@ sf.engine.main = (function() {
     }
     return {
         state: stateSwitch,
-        //draw: draw,
         tick: tick
     }
 })();

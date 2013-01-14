@@ -3,7 +3,7 @@ cat js/setup.js > spich-firish.js
 cat js/inputs/*.js >> spich-firish.js
 cat js/models/world.js >> spich-firish.js
 cat js/models/gameobject.js >> spich-firish.js
-cat js/models/dummyobject.js >> spich-firish.js
+cat js/models/enemyobject.js >> spich-firish.js
 cat js/models/playerobject.js >> spich-firish.js
 cat js/models/terrainobject.js >> spich-firish.js
 cat js/models/bulletobject.js >> spich-firish.js

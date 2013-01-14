@@ -91,8 +91,8 @@ sf.engine.game = (function() {
     var init = function() {
         currentLevel = 0;
 
-        enemies.push(new sf.objects.DummyObject(6, 6, true));
-        enemies.push(new sf.objects.DummyObject(9, 9, true));
+        enemies.push(new sf.objects.EnemyObject(6, 6, true));
+        enemies.push(new sf.objects.EnemyObject(9, 9, true));
         enemies[0].moveBy(15, 15);
         sf.debug(enemies[0].collision(enemies[1]));
         

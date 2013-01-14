@@ -21,7 +21,7 @@ $(document).ready(function() {
   $('#screen').mouseout(function(event) {
     sf.controls.handlers.mouseout();
   });
-  sf.engine.state('GAME_SCREEN');
-  sf.engine.tick();
+  sf.engine.main.state('GAME_SCREEN');
+  sf.engine.main.tick();
 });
 

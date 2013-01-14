@@ -1,6 +1,6 @@
 "use strict";
 
-var sf = {};
+sf.debug = function(message) { if (sf.devel && console) {console.log(message);}};
 
 sf.setup = {
   width: 800,

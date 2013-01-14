@@ -10,10 +10,7 @@ sf.world = {
         playerbullets: [],
         terrain: []
     },
-    initLevel: function(level) {},
-    newEnemyBullet: function() {},
-    newPlayerBullet: function() {},
-    removeEnemyBullet: function(index) {},
-    removePlayerBullet: function(index) {},
-    removeEnemy: function(index) {}
+    build: (function() {
+        
+    })()
 };

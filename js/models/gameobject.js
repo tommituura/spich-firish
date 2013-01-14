@@ -6,12 +6,14 @@ sf.objects.GameObject = {
     moveBy: function(x, y) {
         this.calculateBounds();
         var blocked = false;
+        /*
         for (var i=0;i<sf.world.terrain.length; i++) {
             sf.world.terrain[i].calculateBounds();
             if (this.collision(sf.world.terrain[i])) {
                 blocked = true;
             }
         }
+        */
         //console.log(blocked);
         if (this.movable && !blocked) {
             this.prevpos.x = this.pos.x;

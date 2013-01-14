@@ -10,7 +10,6 @@ cat js/models/bulletobject.js >> spich-firish.js
 cat js/models/goalobject.js >> spich-firish.js
 cat js/engine.js >> spich-firish.js
 cat js/main.js >> spich-firish.js
-cat js/test.js >> spich-firish.js
 java -jar ../yuicompressor-2.4.7.jar spich-firish.js > spich-firish.min.js
 rm spich-firish.js
 

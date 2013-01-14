@@ -3,7 +3,6 @@
 
 $(document).ready(function() {
   sf.setup.context = $('#screen')[0].getContext('2d');
-  test();
   sf.debug('Starting game....');
   $(document).keydown(function(event) {
     sf.controls.handlers.keydown(event);

@@ -78,24 +78,47 @@ sf.engine.hiScoreInput = (function() {
 
 /* THIS MODULE is the heart of game logic. */
 sf.engine.game = (function() {
+    var currentLevel = null;
+    var player = null;
+   
+    var enemies = [];
+    var enemybullets = [];
+    var playerbullets = [];
+    var terrain = [];
+    
+    var nextLevel = function() {};
+    
+    var init = function() {
+        currentLevel = 0;
+
+        enemies.push(new sf.objects.DummyObject(6, 6, true));
+        enemies.push(new sf.objects.DummyObject(9, 9, true));
+        enemies[0].moveBy(15, 15);
+        sf.debug(enemies[0].collision(enemies[1]));
+        
+        terrain.push(new sf.objects.TerrainObject(400, 200, 700, 40));
+        
+        player = new sf.objects.PlayerObject(26, 26, true);
+    };
+    
     var draw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
         sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
         
-        for (var i=0;i<sf.world.terrain.length; i++) {
-            sf.world.terrain[i].draw(sf.setup.context);
+        for (var i=0;i<terrain.length; i++) {
+            terrain[i].draw(sf.setup.context);
         }
         
-        for (var i=0;i<sf.world.enemies.length; i++) {
-            sf.world.enemies[i].draw(sf.setup.context, 'rgb(255,0,0)');
+        for (var i=0;i<enemies.length; i++) {
+            enemies[i].draw(sf.setup.context, 'rgb(255,0,0)');
         }
-        for (var i=0; i<sf.world.enemybullets.length; i++) {
-            sf.world.enemybullets[i].draw(sf.setup.context);
+        for (var i=0; i<enemybullets.length; i++) {
+            enemybullets[i].draw(sf.setup.context);
         }
-        for (var i=0; i<sf.world.playerbullets.length; i++) {
-            sf.world.playerbullets[i].draw(sf.setup.context);
+        for (var i=0; i<playerbullets.length; i++) {
+            playerbullets[i].draw(sf.setup.context);
         }
-        sf.world.player.draw(sf.setup.context);
+        player.draw(sf.setup.context);
     };
     
     var tick = function() {
@@ -105,19 +128,19 @@ sf.engine.game = (function() {
 
         if (shoot) {
             var clickPos = sf.controls.getClickPos();
-            sf.world.playerbullets.push(new sf.objects.BulletObject(sf.world.player.pos.x, sf.world.player.pos.y, clickPos.x, clickPos.y,false,5));
+            playerbullets.push(new sf.objects.BulletObject(player.pos.x, player.pos.y, clickPos.x, clickPos.y,false,5));
         }
         
-        for (var i=0; i<sf.world.enemybullets.length; i++) {
-            sf.world.enemybullets[i].tick();
+        for (var i=0; i<enemybullets.length; i++) {
+            enemybullets[i].tick();
         }
-        for (var i=0; i<sf.world.playerbullets.length; i++) {
-            sf.world.playerbullets[i].tick();
+        for (var i=0; i<playerbullets.length; i++) {
+            playerbullets[i].tick();
         }
-        sf.world.player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
+        player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
     };
-    
     return {
+        init: init,
         draw: draw, 
         tick: tick
     }
@@ -141,7 +164,8 @@ sf.engine.main = (function() {
             currentMode = sf.engine.hiScoreInput;
         } else if (switchto === 'GAME_SCREEN') {
             state = 'GAME_SCREEN';
-            currentMode = sf.engine.game;
+            sf.engine.game.init();
+            currentMode = sf.engine.game;  
         } else {
             state = 'START_SCREEN';
             currentMode = sf.engine.startScreen;

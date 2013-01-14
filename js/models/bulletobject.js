@@ -5,15 +5,21 @@ sf.objects.BulletObject = function(startX, startY, mouseX, mouseY, enemy, speed)
     } else {
         this.speed = speed;
     }
-    /* TODO: pythagoras is not working right now. FIX! */
+
     this.moved = 0;
     var tempdX = mouseX - startX;
     var tempdY = mouseY - startY;
-    var tempdH = Math.sqrt(Math.pow(tempdY,2) + Math.pow(tempdY,2)); // There might be some lookup magic available?
-    var moveFraction = this.speed / tempdH;
-    this.dX = (this.speed * tempdX) / tempdH;
-    this.dY = (this.speed * tempdY) / tempdH;
+    if (tempdX == 0 && tempdY == 0) { tempdX = 1; tempdY = 1;} // for stupid cases.
+
+    var hypotenuse = Math.sqrt(tempdX*tempdX + tempdY*tempdY);
+
+    if (tempdX < 0) {var xdir = -1;} else {var xdir = 1;}
+    if (tempdY < 0) {var ydir = -1;} else {var ydir = 1;}
     
+    var angle = Math.cos(tempdX / hypotenuse);
+    this.dX = this.speed * Math.cos(angle) * xdir;
+    this.dY = this.speed * Math.sin(angle) * ydir;
+
     this.draw = function(context) {
         if (enemy) {
             context.fillStyle='rgb(255,0,0)';

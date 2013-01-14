@@ -35,6 +35,9 @@ sf.engine = (function() {
         for (var i=0;i<sf.world.enemies.length; i++) {
             sf.world.enemies[i].draw(sf.setup.context, 'rgb(255,0,0)');
         }
+        for (var i=0; i<sf.world.enemybullets.length; i++) {
+            sf.world.enemybullets[i].draw(sf.setup.context);
+        }
         for (var i=0; i<sf.world.playerbullets.length; i++) {
             sf.world.playerbullets[i].draw(sf.setup.context);
         }
@@ -78,6 +81,9 @@ sf.engine = (function() {
                 console.log(shoot);
             }
             */
+            for (var i=0; i<sf.world.enemybullets.length; i++) {
+                sf.world.enemybullets[i].tick();
+            }
             for (var i=0; i<sf.world.playerbullets.length; i++) {
                 sf.world.playerbullets[i].tick();
             }

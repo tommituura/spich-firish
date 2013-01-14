@@ -104,7 +104,6 @@ sf.controls = (function() {
         getCursorPos: getCursorPos,
         getClick: getClick,
         getClickPos: getClickPos,
-        getAnyKey: getAnyKey,
-        
+        getAnyKey: getAnyKey
     }
 })();

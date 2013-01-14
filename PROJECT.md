@@ -18,6 +18,8 @@ free to fork and host elsewhere if you want.
 
 ### Controls, gameplay etc.:
 
+### Note: I have done some serious downscaling.
+
 * wasd - up, left, down, right. Up is jump.
 * mouse: aim with crosshairs, you can shoot in all directions.
 * click: shoot.

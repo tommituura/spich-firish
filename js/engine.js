@@ -134,9 +134,36 @@ sf.engine.game = (function() {
         for (var i=0; i<enemybullets.length; i++) {
             enemybullets[i].tick();
         }
+        var survivedBullets = [];
+        var survivedEnemies = [];
         for (var i=0; i<playerbullets.length; i++) {
+            var terrainHit = false;
+            var enemyHit = false;
             playerbullets[i].tick();
+            
+            for (var j=0; j<terrain.length;j++) {
+                if (playerbullets[i].collision(terrain[j])) {
+                    terrainHit = true;
+                }
+            }
+            for (var k=0; k<enemies.length; k++) {
+                if (playerbullets[i].collision(enemies[k])) {
+                    enemies[k].hit();
+                    enemyHit = true;
+                }
+            }
+            if (!terrainHit && !enemyHit) {
+                survivedBullets.push(playerbullets[i]);
+            }
         }
+        for (var h=0; h<enemies.length; h++) {
+            if (enemies[h].life > 0) {
+                survivedEnemies.push(enemies[h]);
+            }
+        }
+        playerbullets = survivedBullets;
+        enemies = survivedEnemies;
+
         player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
     };
     return {

@@ -27,6 +27,7 @@ sf.levels = (function() {
     
     // This function takes the filename which has the json files of actual levels... 
     var initWorld = function(mainfile) {
+        $.ajaxSetup({cache:false});
         $.getJSON(mainfile, initWorldCallback);
     }
     

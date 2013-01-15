@@ -165,6 +165,15 @@ sf.engine.game = (function() {
         enemies = survivedEnemies;
 
         player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
+        var playerHitWall = false;
+        for (var i=0;i<terrain.length;i++) {
+            if (player.collision(terrain[i])) {
+                playerHitWall = true;
+            }
+        }
+        if (playerHitWall) {
+            player.moveBy(-1*playermove[0]*sf.setup.playerspeed, -1*playermove[1]*sf.setup.playerspeed);
+        }
     };
     return {
         init: init,

@@ -86,6 +86,8 @@ sf.engine.game = (function() {
     var playerbullets = [];
     var terrain = [];
     
+    var time = {start: null, now: null, killBonus: 0};
+    
     var nextLevel = function() {};
     
     var init = function() {
@@ -99,6 +101,8 @@ sf.engine.game = (function() {
         terrain.push(new sf.objects.TerrainObject(400, 200, 700, 40));
         
         player = new sf.objects.PlayerObject(26, 26, true);
+        time.start = new Date().valueOf();
+        time.now = new Date().valueOf();
     };
     
     var draw = function() {
@@ -119,12 +123,16 @@ sf.engine.game = (function() {
             playerbullets[i].draw(sf.setup.context);
         }
         player.draw(sf.setup.context);
+        sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
+        //if (time.now) {var timestring = time.now.getUTCMilliSeconds()}
+        sf.setup.context.fillText((time.now-time.start) + ' ... ' + time.killBonus ,0,800);
     };
     
     var tick = function() {
         var playermove = sf.controls.getMovement();
         var crosshairs = sf.controls.getCursorPos();
         var shoot = sf.controls.getClick();
+        var killedEnemies = 0;
 
         if (shoot) {
             var clickPos = sf.controls.getClickPos();
@@ -162,6 +170,7 @@ sf.engine.game = (function() {
             }
         }
         playerbullets = survivedBullets;
+        killedEnemies = killedEnemies + (enemies.length - survivedEnemies.length);
         enemies = survivedEnemies;
 
         player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
@@ -171,9 +180,14 @@ sf.engine.game = (function() {
                 playerHitWall = true;
             }
         }
+        
         if (playerHitWall) {
             player.moveBy(-1*playermove[0]*sf.setup.playerspeed, -1*playermove[1]*sf.setup.playerspeed);
         }
+        
+        time.now = new Date().valueOf();
+        time.killBonus = time.killBonus + killedEnemies;
+        killedEnemies = 0;
     };
     return {
         init: init,

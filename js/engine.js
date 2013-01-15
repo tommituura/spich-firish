@@ -13,8 +13,6 @@ window.requestAnimFrame = (function(){
 
 sf.engine = {}; 
 
-
-
 sf.engine.startScreen = (function() {
     var waitingFrameCounter = 0;
     var waitText = function() {
@@ -103,7 +101,9 @@ sf.engine.hiScoreInput = (function() {
 /* THIS MODULE is the heart of game logic. */
 sf.engine.game = (function() {
     var currentLevel = null;
+    var maxLevelIndex = null;
     var player = null;
+    var goal = null;
    
     var enemies = [];
     var enemybullets = [];
@@ -112,19 +112,41 @@ sf.engine.game = (function() {
     
     var time = {start: null, now: null, killBonus: 0};
     
-    var nextLevel = function() {};
+    var initLevel = function(level) {
+        sf.debug('Starting new level...', currentLevel, maxLevelIndex);
+        var levelData = sf.levels.getLevel(level);
+        terrain = [];
+        enemies = [];
+        player = null;
+        player = null;
+        
+        playerbullets = [];
+        enemybullets = [];
+        
+        for (var i=0;i<levelData.terrain.length;i++) {
+            terrain.push(new sf.objects.TerrainObject(levelData.terrain[i].x, levelData.terrain[i].y, levelData.terrain[i].width, levelData.terrain[i].height));
+        }
+        for (var i=0;i<levelData.enemies.length;i++) {
+            enemies.push(new sf.objects.EnemyObject(levelData.enemies[i].x, levelData.enemies[i].y, true));
+        }
+        player = new sf.objects.PlayerObject(levelData.player.x, levelData.player.y, true);
+        goal = new sf.objects.GoalObject(levelData.goal.x, levelData.goal.y, false);
+    }
+    
+    var nextLevel = function() {
+        if (currentLevel < maxLevelIndex) {
+            currentLevel = currentLevel + 1;
+            initLevel(currentLevel);
+        } else {
+            sf.debug('A WINRAR IS YOU');
+        }
+    };
     
     var init = function() {
         currentLevel = 0;
+        maxLevelIndex = sf.levels.levelCount() - 1;
 
-        enemies.push(new sf.objects.EnemyObject(6, 6, true));
-        enemies.push(new sf.objects.EnemyObject(9, 9, true));
-        enemies[0].moveBy(15, 15);
-        sf.debug(enemies[0].collision(enemies[1]));
-        
-        terrain.push(new sf.objects.TerrainObject(400, 200, 700, 40));
-        
-        player = new sf.objects.PlayerObject(26, 26, true);
+        initLevel(0);
         time.start = new Date().valueOf();
         time.now = new Date().valueOf();
     };
@@ -146,9 +168,9 @@ sf.engine.game = (function() {
         for (var i=0; i<playerbullets.length; i++) {
             playerbullets[i].draw(sf.setup.context);
         }
+        goal.draw(sf.setup.context);
         player.draw(sf.setup.context);
         sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
-        //if (time.now) {var timestring = time.now.getUTCMilliSeconds()}
         sf.setup.context.fillText((time.now-time.start) + ' ... ' + time.killBonus ,0,800);
     };
     
@@ -212,6 +234,10 @@ sf.engine.game = (function() {
         time.now = new Date().valueOf();
         time.killBonus = time.killBonus + killedEnemies;
         killedEnemies = 0;
+        
+        if (player.collision(goal)) {
+            nextLevel();
+        }
     };
     return {
         init: init,

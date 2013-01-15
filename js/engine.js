@@ -16,6 +16,22 @@ sf.engine = {};
 
 
 sf.engine.startScreen = (function() {
+    var waitingFrameCounter = 0;
+    var waitText = function() {
+        var counterRound = waitingFrameCounter % 120;
+        if (counterRound < 10)       {return '   fetching & parsing data ... please wait   ';}
+        else if (counterRound < 20)  {return '  *fetching & parsing data ... please wait*  ';}
+        else if (counterRound < 30)  {return ' * fetching & parsing data ... please wait * ';}
+        else if (counterRound < 40)  {return '*  fetching & parsing data ... please wait  *';}
+        else if (counterRound < 50)  {return '   fetching & parsing data ... please wait   ';}
+        else if (counterRound < 60)  {return '   fetching & parsing data ... please wait   ';}
+        else if (counterRound < 70)  {return '   fetching & parsing data ... please wait   ';}
+        else if (counterRound < 80)  {return '*  fetching & parsing data ... please wait  *';}
+        else if (counterRound < 90)  {return ' * fetching & parsing data ... please wait * ';}
+        else if (counterRound < 100) {return '  *fetching & parsing data ... please wait*  ';}
+        else if (counterRound < 110) {return '   fetching & parsing data ... please wait   ';}
+        else                         {return '   fetching & parsing data ... please wait   ';}
+    }
     var draw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
         sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
@@ -28,10 +44,18 @@ sf.engine.startScreen = (function() {
         sf.setup.context.fillText("WASD to move.", 150, 200);
         sf.setup.context.fillText("Aim and shoot with mouse.", 150, 220);
         sf.setup.context.fillText("You are Black. Avoid/shoot Red. Reach Green.", 150, 240);
-        sf.setup.context.fillText("Press any key to start.", 150, 260);
+        sf.setup.context.fillText("Your time is your score.", 150, 260);
+        
+        if (sf.setup.readyToRun) {
+            sf.setup.context.fillText("Press any key to start.", 150, 300);
+        } else {
+            sf.setup.context.font = '15px Courier';
+            sf.setup.context.fillText(waitText(), 150, 300);
+        }
     };
     var tick = function() {
-        if (sf.controls.getAnyKey()) {
+        waitingFrameCounter = waitingFrameCounter + 1;
+        if (sf.setup.readyToRun && sf.controls.getAnyKey()) {
             sf.controls.getClick(); // empty the mouseclick buffer.
             sf.engine.main.state('GAME_SCREEN');
         }

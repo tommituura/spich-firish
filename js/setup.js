@@ -7,10 +7,9 @@ sf.setup = {
   height: 800,
   context: null, // here only for information as "this is here"
   canvasPosition: null, // as is this one, too
-  playerspeed: 4,
-  levels: $.getJSON('data/levels.json', function(levelsdata) {
-    sf.setup.levels = levelsdata;
-  })
+  playerspeed: 10,
+  levelsFile: 'data/levels.json',
+  readyToRun: false // this should be set to true by sf.levels module when level info has been fetched and parsed.
 };
 
 sf.objects = {};

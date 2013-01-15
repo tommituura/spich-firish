@@ -1,7 +1,21 @@
 #screen {
+    position: relative;
     border: 2px solid black;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
     cursor: crosshair;
+}
+
+#container {
+    position: relative;
+    min-width: 800px;
+    max-width: 800px;
+    padding: 0 0 0 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#footer {
+    text-align: center;
 }
 

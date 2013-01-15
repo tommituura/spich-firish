@@ -1,5 +1,13 @@
 {
-    "terrain":[],
-    "enemies":[],
-    "player":{"x":100, "y":100}
+    "terrain":[
+        {"top":0, "left":0, "right":800,"bottom":100},
+        {"top":0, "left":700, "right":800,"bottom":800},
+        {"top":700, "left":0, "right":800,"bottom":800},
+        {"top":0, "left":0, "right":100,"bottom":800}
+    ],
+    "enemies":[
+        {"x":150, "y":150}
+    ],
+    "player":{"x":300, "y":300},
+    "goal": {"x":500, "y":500}
 }

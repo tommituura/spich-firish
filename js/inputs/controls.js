@@ -92,6 +92,12 @@ sf.controls = (function() {
             return false;
         }
     }
+    function clearKeys() {
+        for (var i=0; i<256; i++) {
+            keys[i] = false;
+        }
+
+    }
     return {
         handlers: {
             keyup : keyup,
@@ -104,6 +110,7 @@ sf.controls = (function() {
         getCursorPos: getCursorPos,
         getClick: getClick,
         getClickPos: getClickPos,
-        getAnyKey: getAnyKey
+        getAnyKey: getAnyKey,
+        clearKeys: clearKeys
     }
 })();

@@ -8,6 +8,7 @@ sf.setup = {
   context: null, // here only for information as "this is here"
   canvasPosition: null, // as is this one, too
   playerspeed: 10,
+  scoreApiUrl: 'http://ttuura.users.cs.helsinki.fi/spichfirishscorer/games/3/scores',
   levelsFile: 'data/levels.json',
   readyToRun: false // this should be set to true by sf.levels module when level info has been fetched and parsed.
 };

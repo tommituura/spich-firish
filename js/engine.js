@@ -14,9 +14,9 @@ window.requestAnimFrame = (function(){
 sf.engine = {}; 
 
 sf.engine.startScreen = (function() {
-    var waitingFrameCounter = 0;
-    var waitText = function() {
-        var counterRound = waitingFrameCounter % 120;
+    var loadWaitFrameCounter = 0;
+    var loadWaitText = function() {
+        var counterRound = loadWaitFrameCounter % 120;
         if (counterRound < 10)       {return '   fetching & parsing data ... please wait   ';}
         else if (counterRound < 20)  {return '  *fetching & parsing data ... please wait*  ';}
         else if (counterRound < 30)  {return ' * fetching & parsing data ... please wait * ';}
@@ -48,40 +48,81 @@ sf.engine.startScreen = (function() {
             sf.setup.context.fillText("Press any key to start.", 150, 300);
         } else {
             sf.setup.context.font = '15px Courier';
-            sf.setup.context.fillText(waitText(), 150, 300);
+            sf.setup.context.fillText(loadWaitText(), 150, 300);
         }
     };
     var tick = function() {
-        waitingFrameCounter = waitingFrameCounter + 1;
+        loadWaitFrameCounter = loadWaitFrameCounter + 1;
         if (sf.setup.readyToRun && sf.controls.getAnyKey()) {
             sf.controls.getClick(); // empty the mouseclick buffer.
             sf.engine.main.state('GAME_SCREEN');
+        } else if (sf.setup.readyToRun && loadWaitFrameCounter > 240) {
+            sf.engine.main.state('SCORE_SCREEN');
         }
     };
+    var init = function() {
+        loadWaitFrameCounter = 0;
+    }
     return {
         draw: draw, 
-        tick: tick
+        tick: tick,
+        init: init
     }
 })();
 
 sf.engine.hiScore = (function() {
+    var scores = null; // sf.scores.scores();
+    var waitFrameCounter = 0;
     var draw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
         sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
         
         sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
         sf.setup.context.fillStyle = 'rgb(0, 0, 0)';
-        sf.setup.context.fillText("Score screen!", 30, 30);
+        sf.setup.context.fillText("High score: ", 30, 30);
+        sf.setup.context.fillText("Levels ", 200, 170);
+        sf.setup.context.fillText("Time ", 300, 170);
+        sf.setup.context.fillText("Name ", 400, 170);
+        sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
+        
+        var ystart = 200;
+        var ystep = 30;
+        for (var i=0;i<scores.length;i++) {
+            sf.setup.context.fillText(scores[i].levels, 200, ystart + ystep*i);
+            sf.setup.context.fillText(scores[i].time, 300, ystart + ystep*i);
+            sf.setup.context.fillText(scores[i].name, 400, ystart + ystep*i);
+        }
+        
     };
     var tick = function() {
+        waitFrameCounter = waitFrameCounter + 1;
+        if (sf.controls.getAnyKey()) {
+            sf.controls.getClick();
+            sf.engine.main.state('GAME_SCREEN');
+        } else if (waitFrameCounter > 240) {
+            sf.engine.main.state('START_SCREEN');
+        } 
     };
+    var init = function () {
+        waitFrameCounter = 0;
+        scores = sf.scores.scores();
+    }
     return {
         draw: draw, 
-        tick: tick
+        tick: tick,
+        init: init
     }
 })();
 
 sf.engine.hiScoreInput = (function() {
+    var levels;
+    var time;
+    
+    var sendScore = function(levelsarg, timearg) {
+        console.log(arguments);
+        time = timearg;
+        levels = levelsarg;
+    }
     var draw = function() {
         sf.setup.context.fillStyle="rgb(255,255,255)";
         sf.setup.context.fillRect(0, 0, sf.setup.width, sf.setup.height);
@@ -91,10 +132,14 @@ sf.engine.hiScoreInput = (function() {
         sf.setup.context.fillText("Score Input screen!", 30, 30);
     };
     var tick = function() {
+        var name = prompt('Name?');
+        sf.scores.addScore(name, levels, time);
+        sf.engine.main.state('SCORE_SCREEN');
     };
     return {
         draw: draw, 
-        tick: tick
+        tick: tick,
+        sendScore: sendScore
     }
 })();
 
@@ -102,6 +147,7 @@ sf.engine.hiScoreInput = (function() {
 sf.engine.game = (function() {
     var currentLevel = null;
     var maxLevelIndex = null;
+    var clearedLevels = null;
     var player = null;
     var goal = null;
    
@@ -111,6 +157,26 @@ sf.engine.game = (function() {
     var terrain = [];
     
     var time = {start: null, now: null, killBonus: 0};
+    
+    var gameEnd = function() {
+        console.log(clearedLevels, time.now-time.start);
+        if (sf.scores.checkScore(clearedLevels, time.now-time.start)) {
+            sf.engine.hiScoreInput.sendScore(clearedLevels, time.now-time.start);
+            sf.engine.main.state('SCOREINPUT_SCREEN');
+        } else {
+            sf.engine.main.state('SCORE_SCREEN');
+        }
+    }
+    
+    var gameOver = function() {
+        clearedLevels = currentLevel;
+        gameEnd();
+    }
+    
+    var gameClear = function() {
+        clearedLevels = currentLevel + 1;
+        gameEnd();
+    }
     
     var initLevel = function(level) {
         sf.debug('Starting new level...', currentLevel, maxLevelIndex);
@@ -138,11 +204,12 @@ sf.engine.game = (function() {
             currentLevel = currentLevel + 1;
             initLevel(currentLevel);
         } else {
-            sf.debug('A WINRAR IS YOU');
+            gameClear();
         }
     };
     
     var init = function() {
+        sf.controls.clearKeys();
         currentLevel = 0;
         maxLevelIndex = sf.levels.levelCount() - 1;
 
@@ -235,6 +302,12 @@ sf.engine.game = (function() {
         time.killBonus = time.killBonus + killedEnemies;
         killedEnemies = 0;
         
+        for (var i=0; i<enemies.length; i++) {
+            if (player.collision(enemies[i])) {
+                gameOver();
+            }
+        }
+        
         if (player.collision(goal)) {
             nextLevel();
         }
@@ -259,16 +332,19 @@ sf.engine.main = (function() {
         if (switchto === 'SCORE_SCREEN') {
             state = 'SCORE_SCREEN';
             currentMode = sf.engine.hiScore;
+            currentMode.init();
         } else if (switchto === 'SCOREINPUT_SCREEN') {
             state = 'SCOREINPUT_SCREEN';
             currentMode = sf.engine.hiScoreInput;
         } else if (switchto === 'GAME_SCREEN') {
             state = 'GAME_SCREEN';
-            sf.engine.game.init();
-            currentMode = sf.engine.game;  
+            //sf.engine.game.init();
+            currentMode = sf.engine.game; 
+            currentMode.init(); 
         } else {
             state = 'START_SCREEN';
             currentMode = sf.engine.startScreen;
+            currentMode.init();
         }
     }
     return {

@@ -1,9 +1,6 @@
 sf.levels = (function() {
-    var parsedLevels = 0;
-    
     var levels = [];
-    
-    
+
     var initLevel = function(levelFile, levelIndex) {
         $.getJSON(levelFile, function(oneLevelData) {
             sf.debug(levelFile, levelIndex, oneLevelData);
@@ -16,7 +13,7 @@ sf.levels = (function() {
                 }
             }
             if (isReady) sf.debug('Ready now.');
-            sf.setup.readyToRun = isReady
+            sf.setup.readyToRun = isReady;
         });
     }
     
@@ -26,7 +23,6 @@ sf.levels = (function() {
             levels[i].parsed = false;
             initLevel(levels[i].file, i);
         }
-        //console.log('initWorldCallback finishing... levels:', levels);
     }
     
     // This function takes the filename which has the json files of actual levels... 
@@ -41,7 +37,11 @@ sf.levels = (function() {
     
     // This returns the asked level.
     var getLevel = function(index) {
-        
+        if (levels[index]) {
+            return levels[index].data;
+        } else {
+            return undefined;
+        }
     }
     return {
         initWorld: initWorld,

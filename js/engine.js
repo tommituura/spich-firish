@@ -225,7 +225,7 @@ sf.engine.game = (function() {
         for (var i=0;i<terrain.length; i++) {
             terrain[i].draw(sf.setup.context);
         }
-        
+        goal.draw(sf.setup.context);
         for (var i=0;i<enemies.length; i++) {
             enemies[i].draw(sf.setup.context, 'rgb(255,0,0)');
         }
@@ -235,7 +235,6 @@ sf.engine.game = (function() {
         for (var i=0; i<playerbullets.length; i++) {
             playerbullets[i].draw(sf.setup.context);
         }
-        goal.draw(sf.setup.context);
         player.draw(sf.setup.context);
         sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
         sf.setup.context.fillText((time.now-time.start) + ' ... ' + time.killBonus ,0,800);

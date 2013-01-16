@@ -241,7 +241,10 @@ sf.engine.game = (function() {
         sf.setup.context.fillText((time.now-time.start) + ' ... ' + time.killBonus ,0,800);
     };
     
-    var tick = function() {
+    var tick = function(frameNum) {
+        if (frameNum==0) {
+            //sf.debug('tick!');
+        }
         var playermove = sf.controls.getMovement();
         var crosshairs = sf.controls.getCursorPos();
         var shoot = sf.controls.getClick();
@@ -285,8 +288,14 @@ sf.engine.game = (function() {
         playerbullets = survivedBullets;
         killedEnemies = killedEnemies + (enemies.length - survivedEnemies.length);
         enemies = survivedEnemies;
-
-        player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
+        
+        // Diagonal moving means adjusted speed..... Math.cos(Math.PI*0.25) is roughly 0.71.
+        if (playermove[0]!==0 && playermove[1]!==0) {
+            player.moveBy(playermove[0]*sf.setup.playerspeed*0.71, playermove[1]*sf.setup.playerspeed*0.71);
+        } else {
+            player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
+        }
+        
         var playerHitWall = false;
         for (var i=0;i<terrain.length;i++) {
             if (player.collision(terrain[i])) {
@@ -294,8 +303,9 @@ sf.engine.game = (function() {
             }
         }
         
+        
         if (playerHitWall) {
-            player.moveBy(-1*playermove[0]*sf.setup.playerspeed, -1*playermove[1]*sf.setup.playerspeed);
+            player.moveBack();
         }
         
         time.now = new Date().valueOf();
@@ -311,6 +321,7 @@ sf.engine.game = (function() {
         if (player.collision(goal)) {
             nextLevel();
         }
+        //sf.controls.clearKeys();
     };
     return {
         init: init,
@@ -322,14 +333,19 @@ sf.engine.game = (function() {
 sf.engine.main = (function() {
     var state = 'START_SCREEN';
     var currentMode = sf.engine.startScreen;
+    var frameNum = 0;
 
     /* This is admittedly the slower way to handle the state switching, but 
        the alternative would be far too ugly code. For minimal gain:
        http://jsperf.com/code-selection-property-lookup-function-call-vs-if-else
         */
     var tick = function() {
-        currentMode.tick();
-        currentMode.draw();
+        currentMode.tick(frameNum);
+        currentMode.draw(frameNum);
+        frameNum++;
+        if (frameNum > 59) {
+            frameNum = 0;
+        }
         requestAnimFrame(sf.engine.main.tick);
     }
     var stateSwitch = function(switchto) {

@@ -216,6 +216,7 @@ sf.engine.game = (function() {
         initLevel(0);
         time.start = new Date().valueOf();
         time.now = new Date().valueOf();
+        time.killBonus = 0;
     };
     
     var draw = function() {

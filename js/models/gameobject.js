@@ -5,27 +5,18 @@
 sf.objects.GameObject = {
     moveBy: function(x, y) {
         this.calculateBounds();
-        var blocked = false;
-        /*
-        for (var i=0;i<sf.world.terrain.length; i++) {
-            sf.world.terrain[i].calculateBounds();
-            if (this.collision(sf.world.terrain[i])) {
-                blocked = true;
-            }
-        }
-        */
-        //console.log(blocked);
-        if (this.movable && !blocked) {
+        if (this.movable) { 
             this.prevpos.x = this.pos.x;
             this.prevpos.y = this.pos.y;
             this.pos.x = this.pos.x + x;
             this.pos.y = this.pos.y + y;
             this.calculateBounds();
-        } else if (blocked) {
-            this.pos.x = this.prevpos.x;
-            this.pos.y = this.prevpos.y;
-            this.calculateBounds();
-        }
+        } 
+    },
+    moveBack: function() {
+        this.pos.x = this.prevpos.x;
+        this.pos.y = this.prevpos.y;
+        this.calculateBounds();
     },
     calculateBounds: function() {
 

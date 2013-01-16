@@ -323,6 +323,10 @@ sf.engine.main = (function() {
     var state = 'START_SCREEN';
     var currentMode = sf.engine.startScreen;
 
+    /* This is admittedly the slower way to handle the state switching, but 
+       the alternative would be far too ugly code. For minimal gain:
+       http://jsperf.com/code-selection-property-lookup-function-call-vs-if-else
+        */
     var tick = function() {
         currentMode.tick();
         currentMode.draw();

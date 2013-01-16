@@ -242,9 +242,15 @@ sf.engine.game = (function() {
     };
     
     var tick = function(frameNum) {
+        $('#screen').focus();
         if (frameNum==0) {
             //sf.debug('tick!');
         }
+        
+        if (sf.controls.getEsc()) {
+            gameOver();
+        }
+        
         var playermove = sf.controls.getMovement();
         var crosshairs = sf.controls.getCursorPos();
         var shoot = sf.controls.getClick();
@@ -321,7 +327,6 @@ sf.engine.game = (function() {
         if (player.collision(goal)) {
             nextLevel();
         }
-        //sf.controls.clearKeys();
     };
     return {
         init: init,

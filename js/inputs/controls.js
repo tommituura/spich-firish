@@ -7,6 +7,7 @@ sf.controls = (function() {
     var clicked = false;
     var clickPos = {x:null, y:null};
     var keys = [];
+    var escPressed = false;
     var anykey = false;
     for (var i=0; i<256; i++) {
         keys[i] = false;
@@ -29,6 +30,9 @@ sf.controls = (function() {
     }
 
     function keydown(keyevent) {
+        if (keyevent.which === 27) {
+            escPressed = true;
+        }
         keys[keyevent.which] = true;
         anykey = true;
     }
@@ -92,11 +96,21 @@ sf.controls = (function() {
             return false;
         }
     }
+    function getEsc() {
+        if (escPressed) {
+            escPressed = false;
+            return true;
+        }
+        else {
+            return false
+        }
+    }
     function clearKeys() {
         for (var i=0; i<256; i++) {
             keys[i] = false;
         }
-
+        escPressed = false;
+        anykey = false;
     }
     return {
         handlers: {
@@ -111,6 +125,7 @@ sf.controls = (function() {
         getClick: getClick,
         getClickPos: getClickPos,
         getAnyKey: getAnyKey,
+        getEsc: getEsc,
         clearKeys: clearKeys
     }
 })();

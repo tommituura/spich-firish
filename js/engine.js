@@ -339,18 +339,37 @@ sf.engine.main = (function() {
     var state = 'START_SCREEN';
     var currentMode = sf.engine.startScreen;
     var frameNum = 0;
-
+    var frametime = {
+        start: null,
+        prev: null,
+        now: null,
+        current: null,
+        sum: 0,
+        maxVal: 0
+    };
     /* This is admittedly the slower way to handle the state switching, but 
        the alternative would be far too ugly code. For minimal gain:
        http://jsperf.com/code-selection-property-lookup-function-call-vs-if-else
         */
     var tick = function() {
+        frametime.start = new Date().valueOf();
         currentMode.tick(frameNum);
         currentMode.draw(frameNum);
         frameNum++;
         if (frameNum > 59) {
             frameNum = 0;
+            // console.log(frametime.values);
+            if (sf.devel) {
+                console.log(frametime.sum/60, frametime.maxVal);
+            }
+            frametime.sum = 0;
+            frametime.maxVal = 0;
         }
+        frametime.prev = frametime.now;
+        frametime.now = new Date().valueOf();
+        frametime.current = ((frametime.now - frametime.start)/(frametime.now - frametime.prev) * 100);
+        frametime.sum = frametime.sum + frametime.current;
+        if (frametime.current > frametime.maxVal) {frametime.maxVal = frametime.current;}
         requestAnimFrame(sf.engine.main.tick);
     }
     var stateSwitch = function(switchto) {
@@ -363,7 +382,6 @@ sf.engine.main = (function() {
             currentMode = sf.engine.hiScoreInput;
         } else if (switchto === 'GAME_SCREEN') {
             state = 'GAME_SCREEN';
-            //sf.engine.game.init();
             currentMode = sf.engine.game; 
             currentMode.init(); 
         } else {

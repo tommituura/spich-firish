@@ -132,6 +132,9 @@ sf.engine.hiScoreInput = (function() {
     };
     var tick = function() {
         var name = prompt('Name?');
+        if (!name || name=='') {
+            name = 'Anonymous Coward';
+        }
         sf.scores.addScore(name, levels, time);
         levels = null;
         time = null;

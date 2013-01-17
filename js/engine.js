@@ -271,11 +271,10 @@ sf.engine.game = (function() {
             var enemyHit = false;
             playerbullets[i].tick();
             
-            for (var j=0; j<terrain.length;j++) {
-                if (playerbullets[i].collision(terrain[j])) {
-                    terrainHit = true;
-                }
+            if (playerbullets[i].arrayCollision(terrain)) {
+                terrainHit = true;
             }
+            
             for (var k=0; k<enemies.length; k++) {
                 if (playerbullets[i].collision(enemies[k])) {
                     enemies[k].hit();
@@ -303,12 +302,10 @@ sf.engine.game = (function() {
         }
         
         var playerHitWall = false;
-        for (var i=0;i<terrain.length;i++) {
-            if (player.collision(terrain[i])) {
-                playerHitWall = true;
-            }
-        }
         
+        if (player.arrayCollision(terrain)) {
+            playerHitWall = true;
+        }
         
         if (playerHitWall) {
             player.moveBack();

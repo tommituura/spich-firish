@@ -361,11 +361,8 @@ sf.engine.main = (function() {
         currentMode.draw(frameNum);
         frameNum++;
         if (frameNum > 59) {
+            sf.debug(frametime.sum/60, frametime.maxVal);
             frameNum = 0;
-            // console.log(frametime.values);
-            if (sf.devel) {
-                console.log(frametime.sum/60, frametime.maxVal);
-            }
             frametime.sum = 0;
             frametime.maxVal = 0;
         }

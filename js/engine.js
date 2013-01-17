@@ -56,7 +56,7 @@ sf.engine.startScreen = (function() {
         if (sf.setup.readyToRun && sf.controls.getAnyKey()) {
             sf.controls.getClick(); // empty the mouseclick buffer.
             sf.engine.main.state('GAME_SCREEN');
-        } else if (sf.setup.readyToRun && loadWaitFrameCounter > 240) {
+        } else if (sf.setup.readyToRun && loadWaitFrameCounter > 400) {
             sf.engine.main.state('SCORE_SCREEN');
         }
     };
@@ -99,7 +99,7 @@ sf.engine.hiScore = (function() {
         if (sf.controls.getAnyKey()) {
             sf.controls.getClick();
             sf.engine.main.state('GAME_SCREEN');
-        } else if (waitFrameCounter > 240) {
+        } else if (waitFrameCounter > 400) {
             sf.engine.main.state('START_SCREEN');
         } 
     };

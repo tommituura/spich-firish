@@ -300,25 +300,32 @@ sf.engine.game = (function() {
         } else {
             player.moveBy(playermove[0]*sf.setup.playerspeed, playermove[1]*sf.setup.playerspeed);
         }
-        
-        var playerHitWall = false;
-        
+
         if (player.arrayCollision(terrain)) {
-            playerHitWall = true;
-        }
-        
-        if (playerHitWall) {
             player.moveBack();
+            do {
+                player.moveBy(playermove[0]*0.5, playermove[1]*0.5, true);
+            } while(player.arrayCollision(terrain)===false);
+            player.moveBy(playermove[0]*-0.5,playermove[1]*-0.5, true);
+            
+            if (playermove[0]!==0 && playermove[1]!==0) {
+                player.moveBy(playermove[0]*sf.setup.playerspeed*0.71, 0, true);
+                if (player.arrayCollision(terrain)===true) {
+                    player.moveBy(playermove[0]*sf.setup.playerspeed*-0.71, 0, true);
+                }
+                player.moveBy(0, playermove[1]*sf.setup.playerspeed*0.71, true);
+                if (player.arrayCollision(terrain)===true) {
+                    player.moveBy(0, playermove[1]*sf.setup.playerspeed*-0.71, true);;
+                }
+            }
         }
         
         time.now = new Date().valueOf();
         time.killBonus = time.killBonus + killedEnemies;
         killedEnemies = 0;
         
-        for (var i=0; i<enemies.length; i++) {
-            if (player.collision(enemies[i])) {
-                gameOver();
-            }
+        if (player.arrayCollision(enemies)) {
+            gameOver();
         }
         
         if (player.collision(goal)) {

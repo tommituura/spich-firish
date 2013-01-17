@@ -1,5 +1,5 @@
 sf.scores = (function() {
-    var maximumNumberOfScores = 3;
+    var maximumNumberOfScores = 10;
     var scores = [];
     
     var serverSendScore = function(newScore) {
@@ -12,19 +12,23 @@ sf.scores = (function() {
     
     var serverFetchScore = function() {
         $.getJSON(sf.setup.scoreApiUrl, function(data) {
+            newscores = []
+            for (var score in data) {
+                newscores.push({name:data.name, levels:parseInt(data.levels), time:parseInt(data.time)});
+            }
             scores = data.sort(scoreComparator).slice(0, maximumNumberOfScores);
         });
     }
     
     var scoreComparator = function(a, b) {
         //var rval = 0;
-        if (a.levels > b.levels) {
+        if (parseInt(a.levels) > parseInt(b.levels)) {
             return -11;
-        } else if (a.levels < b.levels) {
+        } else if (parseInt(a.levels) < parseInt(b.levels)) {
             return 1;
-        } else if( a.time < b.time ) {
+        } else if( parseInt(a.time) < parseInt(b.time) ) {
             return -1;
-        } else if (a.time > b.time) {
+        } else if (parseInt(a.time) > parseInt(b.time)) {
             return 1;
         } else {
             return 0;
@@ -58,6 +62,7 @@ sf.scores = (function() {
     
     var getScores = function() {
         serverFetchScore();
+        scores.sort(scoreComparator);
         sf.debug(scores);
         return scores;
     };

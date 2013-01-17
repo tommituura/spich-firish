@@ -65,8 +65,10 @@ sf.objects.GameObject = {
         return (this.areaCollision(that) && this.crudeCollision(that) && this.hitboxCollision(that));
     },
     arrayCollision: function(arrayOfThats) {
+        this.collided = null;
         for (var i=0; i<arrayOfThats.length; i++) {
             if (this.collision(arrayOfThats[i])) {
+                this.collided = arrayOfThats[i];
                 return true;
             }
         }
@@ -83,6 +85,7 @@ sf.objects.GameObject = {
         this.movebounds = {};
         this.calculateBounds();
         this.active = false;
+        this.collided = null;
         if (typeof blocking === 'undefined') {this.blocking = false;}
         else {this.blocking = blocking;}
         this.color = 'rgb(0,0,0)';

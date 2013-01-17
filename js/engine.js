@@ -275,12 +275,15 @@ sf.engine.game = (function() {
                 terrainHit = true;
             }
             
-            for (var k=0; k<enemies.length; k++) {
-                if (playerbullets[i].collision(enemies[k])) {
-                    enemies[k].hit();
+            if (playerbullets[i].arrayCollision(enemies)) {
+                if (playerbullets[i].collided) {
+                    playerbullets[i].collided.hit();
                     enemyHit = true;
+                } else {
+                    throw new ReferenceError('Playerbullet collided but collided == null.');
                 }
             }
+            
             if (!terrainHit && !enemyHit) {
                 survivedBullets.push(playerbullets[i]);
             }

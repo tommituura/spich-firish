@@ -1,44 +1,50 @@
 sf.scores = (function() {
+    var maximumNumberOfScores = 3;
     var scores = [];
     
     var syncScores = function() {
     };
     
+    var scoreComparator = function(a, b) {
+        //var rval = 0;
+        if (a.levels > b.levels) {
+            return -11;
+        } else if (a.levels < b.levels) {
+            return 1;
+        } else if( a.time < b.time ) {
+            return -1;
+        } else if (a.time > b.time) {
+            return 1;
+        } else {
+            return 0;
+        }
+        //console.log(rval, a, b);
+    }
     
     var checkScore = function(levels, time) {
-        if (scores.length < 10) {
-            return true;
+        var makesIt = false;
+        if (scores.length < maximumNumberOfScores) {
+            makesIt = true;
         }
-        for (var i=0; i<scores.length && i<10; i++) {
-            if (scores[i].levels <= levels && scores[i].time < time) {
-                return true
+        var newscore = {levels: levels, time:time};
+        
+        for (var i=0;i<scores.length && i < maximumNumberOfScores;i++) {
+            if (scoreComparator(newscore, scores[i]) < 0) {
+                makesIt = true;
             }
         }
-        return false;
+        console.log('makesIt: ', makesIt);
+        return makesIt;
     };
     
     var addScore = function(name, levels, time) {
         scores.push({name: name, levels: levels, time:time});
-        /*
-        var newscores = [];
-        var i = 0;
-        for (;i<scores.length;i++) {
-            if (scores[i].levels > levels || scores[i].time >= time) {
-                newscores.push(scores[i]);
-            } else {
-                break;
-            }
-        } 
-        if (i < 10) {
-            newscores.push({name: name, levels: levels, time:time})
-            for (;i<scores.length;i++) {
-                newscores.push(scores[i]);
-            }
-        }*/
+        scores.sort(scoreComparator);
+        scores = scores.slice(0, maximumNumberOfScores);
     };
     
     var getScores = function() {
-        console.log(scores);
+        sf.debug(scores);
         return scores;
     };
     

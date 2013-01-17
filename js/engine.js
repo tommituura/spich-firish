@@ -119,7 +119,6 @@ sf.engine.hiScoreInput = (function() {
     var time;
     
     var sendScore = function(levelsarg, timearg) {
-        console.log(arguments);
         time = timearg;
         levels = levelsarg;
     }
@@ -134,6 +133,8 @@ sf.engine.hiScoreInput = (function() {
     var tick = function() {
         var name = prompt('Name?');
         sf.scores.addScore(name, levels, time);
+        levels = null;
+        time = null;
         sf.engine.main.state('SCORE_SCREEN');
     };
     return {
@@ -159,7 +160,6 @@ sf.engine.game = (function() {
     var time = {start: null, now: null, killBonus: 0};
     
     var gameEnd = function() {
-        console.log(clearedLevels, time.now-time.start);
         if (sf.scores.checkScore(clearedLevels, time.now-time.start)) {
             sf.engine.hiScoreInput.sendScore(clearedLevels, time.now-time.start);
             sf.engine.main.state('SCOREINPUT_SCREEN');
@@ -179,7 +179,7 @@ sf.engine.game = (function() {
     }
     
     var initLevel = function(level) {
-        sf.debug('Starting new level...', currentLevel, maxLevelIndex);
+        // sf.debug('Starting new level...', currentLevel, maxLevelIndex);
         var levelData = sf.levels.getLevel(level);
         terrain = [];
         enemies = [];

@@ -11,11 +11,11 @@ sf.scores = (function() {
     };
     
     var serverFetchScore = function() {
-        $.getJSON(sf.setup.scoreApiUrl, function(data) {
-            newscores = []
+        $.getJSON(sf.setup.scoreApiUrl + '?maxValues=' + maximumNumberOfScores, function(data) {
+            /*var newscores = [];
             for (var score in data) {
                 newscores.push({name:data.name, levels:parseInt(data.levels), time:parseInt(data.time)});
-            }
+            }*/
             scores = data.sort(scoreComparator).slice(0, maximumNumberOfScores);
         });
     }

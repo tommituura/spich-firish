@@ -2,8 +2,19 @@ sf.scores = (function() {
     var maximumNumberOfScores = 3;
     var scores = [];
     
-    var syncScores = function() {
+    var serverSendScore = function(newScore) {
+        $.ajax({
+            type: "POST",
+            url: sf.setup.scoreApiUrl + 'add/',
+            data: newScore
+        });
     };
+    
+    var serverFetchScore = function() {
+        $.getJSON(sf.setup.scoreApiUrl, function(data) {
+            scores = data.sort(scoreComparator).slice(0, maximumNumberOfScores);
+        });
+    }
     
     var scoreComparator = function(a, b) {
         //var rval = 0;
@@ -38,12 +49,15 @@ sf.scores = (function() {
     };
     
     var addScore = function(name, levels, time) {
-        scores.push({name: name, levels: levels, time:time});
+        var newScore = {name: name, levels: levels, time:time};
+        scores.push(newScore);
         scores.sort(scoreComparator);
         scores = scores.slice(0, maximumNumberOfScores);
+        serverSendScore(newScore);
     };
     
     var getScores = function() {
+        serverFetchScore();
         sf.debug(scores);
         return scores;
     };
@@ -51,6 +65,7 @@ sf.scores = (function() {
     return {
         checkScore: checkScore,
         addScore: addScore,
-        scores: getScores
+        scores: getScores,
+        syncServer: serverFetchScore
     }
 })();

@@ -10,9 +10,8 @@ $(document).ready(function() {
   $(document).keyup(function(eventInformation) {
     sf.controls.handlers.keyup(event);
   });
-  $('#screen').mouseup(function(event) {
+  $('#screen').mousedown(function(event) {
     sf.controls.handlers.mouseclick(event);
-    //console.log(event.offsetX, event.offsetY);
   });
   $('#screen').mousemove(function(event) {
     sf.controls.handlers.mousemove(event);

@@ -3,15 +3,17 @@
 // gameplay/animation/etc. objects
 
 sf.objects.GameObject = {
-    moveBy: function(x, y) {
+    moveBy: function(x, y, holdPrev) {
         this.calculateBounds();
         if (this.movable) { 
-            this.prevpos.x = this.pos.x;
-            this.prevpos.y = this.pos.y;
+            if (!holdPrev) {
+                this.prevpos.x = this.pos.x;
+                this.prevpos.y = this.pos.y;
+            }
             this.pos.x = this.pos.x + x;
             this.pos.y = this.pos.y + y;
             this.calculateBounds();
-        } 
+        }
     },
     moveBack: function() {
         this.pos.x = this.prevpos.x;
@@ -61,6 +63,14 @@ sf.objects.GameObject = {
     collision: function(that) { // Remember to run calculateBounds for both this and that before asking collision!
         //console.log('Calling collision!');
         return (this.areaCollision(that) && this.crudeCollision(that) && this.hitboxCollision(that));
+    },
+    arrayCollision: function(arrayOfThats) {
+        for (var i=0; i<arrayOfThats.length; i++) {
+            if (this.collision(arrayOfThats[i])) {
+                return true;
+            }
+        }
+        return false;
     },
     init: function(posX, posY, movable, outerwidth, outerheight, blocking) {
         this.pos = {x: posX, y: posY };

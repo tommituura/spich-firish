@@ -6,7 +6,7 @@ sf.scores = (function() {
         $.ajax({
             type: "POST",
             url: sf.setup.scoreApiUrl + 'add/',
-            data: newScore
+            data: JSON.stringify(newScore)
         });
     };
     

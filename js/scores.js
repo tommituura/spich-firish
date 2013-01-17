@@ -12,18 +12,13 @@ sf.scores = (function() {
     
     var serverFetchScore = function() {
         $.getJSON(sf.setup.scoreApiUrl + '?maxValues=' + maximumNumberOfScores, function(data) {
-            /*var newscores = [];
-            for (var score in data) {
-                newscores.push({name:data.name, levels:parseInt(data.levels), time:parseInt(data.time)});
-            }*/
             scores = data.sort(scoreComparator).slice(0, maximumNumberOfScores);
         });
     }
     
     var scoreComparator = function(a, b) {
-        //var rval = 0;
         if (parseInt(a.levels) > parseInt(b.levels)) {
-            return -11;
+            return -1;
         } else if (parseInt(a.levels) < parseInt(b.levels)) {
             return 1;
         } else if( parseInt(a.time) < parseInt(b.time) ) {
@@ -33,7 +28,6 @@ sf.scores = (function() {
         } else {
             return 0;
         }
-        //console.log(rval, a, b);
     }
     
     var checkScore = function(levels, time) {

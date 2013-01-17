@@ -238,7 +238,9 @@ sf.engine.game = (function() {
         }
         player.draw(sf.setup.context);
         sf.setup.context.font = '20px Arial, Helvetica, Sans-serif';
-        sf.setup.context.fillText((time.now-time.start) + ' ... ' + time.killBonus ,0,800);
+        sf.setup.context.fillText('Time: ' + (time.now-time.start), 5, 795);
+        sf.setup.context.fillText('Killed enemies: ' + time.killBonus, 300, 795);
+        sf.setup.context.fillText('Level: ' + (currentLevel + 1) ,600,795);
     };
     
     var tick = function(frameNum) {

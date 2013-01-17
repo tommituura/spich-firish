@@ -19,6 +19,7 @@ $(document).ready(function() {
   $('#screen').mouseout(function(event) {
     sf.controls.handlers.mouseout();
   });
+  sf.scores.syncServer();
   sf.levels.initWorld(sf.setup.levelsFile);
   sf.engine.main.state('START_SCREEN');
   sf.engine.main.tick();

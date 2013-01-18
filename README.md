@@ -1,8 +1,7 @@
 # spich-firish
 
 Browser-based mouse+keyboard -controlled run'n'gun shooter game with 
-JavaScript, Canvas and little bits of additional 
-html5 if I get around to it. __NO FLASH__.
+JavaScript, Canvas and the usual modern, open standard-compliant things.
 
 ### License
 

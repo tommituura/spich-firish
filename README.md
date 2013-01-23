@@ -12,6 +12,8 @@ MIT.
 Please ignore the odd, rough things at the edges. I'm still 
 figuring this git and github thing out...
 
+Also, check FUTURE.md to know where this repo and project is going.
+
 ### Building & installing
 
 There are two ways to access the game: index.html and development.html. 

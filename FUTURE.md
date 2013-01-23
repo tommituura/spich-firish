@@ -21,6 +21,8 @@ probably only going to happen as separate projects.
 
 ### 1. This speed-running game:
 
+(Thanks to the course lecturer Arto Vihavainen for these ideas)
+
 * enable the players to play against the "ghost" of best player 
 * some kind of speed penalty for hitting wall
 * more levels, etc

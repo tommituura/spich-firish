@@ -16,6 +16,8 @@ In the end, the game ended up being mostly speed-oriented,
 and even my idea of giving a time bonus for shot enemies 
 did not happen. 
 
+### Where do we go from here?
+
 On the other hand, I now have more than one idea that are 
 probably only going to happen as separate projects.
 

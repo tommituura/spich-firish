@@ -42,7 +42,6 @@ sf.scores = (function() {
                 makesIt = true;
             }
         }
-        console.log('makesIt: ', makesIt);
         return makesIt;
     };
     

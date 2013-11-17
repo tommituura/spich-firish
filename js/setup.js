@@ -1,5 +1,7 @@
 "use strict";
 
+var sf = {};
+
 sf.debug = function() { if (sf.devel && console) {console.log(arguments);}};
 
 sf.setup = {
